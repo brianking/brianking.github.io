@@ -1,115 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Brian King | Netizen</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brian King</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ubuntu" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    :root {
+      --bg: #f8f7f5;
+      --bg2: #f0eeea;
+      --surface: #ffffff;
+      --border: #e2ddd8;
+      --accent: #2d6a4f;
+      --accent-light: #eaf2ed;
+      --text: #1e1c1a;
+      --muted: #6b6560;
+      --font: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
 
-    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
-    <link rel="icon" href="img/icon.png" type="image/x-icon">
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.75; overflow-x: hidden; }
 
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 3rem;
+      background: rgba(248,247,245,0.94); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 800; font-size: 1rem; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
 
-      ga('create', 'UA-98286069-1', 'auto');
-      ga('send', 'pageview');
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; max-width: 1140px; margin: 0 auto;
+      padding: 8rem 3rem 5rem; gap: 5rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+    h1 {
+      font-size: clamp(2.8rem, 5vw, 4.8rem); font-weight: 800;
+      line-height: 1.08; letter-spacing: -0.03em; color: var(--text);
+      margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.6s ease forwards 0.25s;
+    }
+    h1 span.hl { font-family: 'Instrument Serif', serif; font-style: normal; font-weight: 400; color: var(--accent); }
+    .section-title span.hl { font-family: 'Instrument Serif', serif; font-style: normal; font-weight: 400; color: var(--accent); }
+    .hero-subtitle {
+      font-size: 1.05rem; font-weight: 300; color: var(--muted);
+      max-width: 420px; margin-bottom: 2.5rem; line-height: 1.85;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.4s;
+    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s ease forwards 0.55s; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.75rem; font-family: var(--font); font-size: 0.82rem; font-weight: 600; text-decoration: none; border-radius: 6px; transition: all 0.2s; cursor: pointer; letter-spacing: 0.01em; }
+    .btn-primary { background: var(--accent); color: #fff; border: 2px solid var(--accent); }
+    .btn-primary:hover { background: #235a41; border-color: #235a41; }
+    .btn-ghost { background: transparent; color: var(--text); border: 2px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--text); }
+    .status-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; font-family: var(--font-mono); color: var(--muted); margin-top: 2rem; opacity: 0; animation: fadeUp 0.6s ease forwards 0.7s; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #5cb85c; animation: pulse 2.5s infinite; }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(92,184,92,0.4); } 50% { box-shadow: 0 0 0 5px rgba(92,184,92,0); } }
 
-    </script>
+    /* HERO TIMELINE */
+    .hero-right { opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s; }
+    .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2.25rem; box-shadow: 0 4px 32px rgba(30,28,26,0.07); }
+    .hero-card-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
 
-    <!--
-    <script src="//load.sumome.com/" data-sumo-site-id="" async="async"></script>
-    -->
+    .timeline { display: flex; flex-direction: column; position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 11px; top: 6px; bottom: 6px;
+      width: 1px; background: var(--border);
+    }
+    .timeline-item { display: flex; gap: 1.1rem; align-items: flex-start; padding-bottom: 1.4rem; position: relative; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      width: 23px; height: 23px; border-radius: 50%;
+      background: var(--surface); border: 2px solid var(--border);
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative; z-index: 1;
+    }
+    .timeline-item:hover .timeline-dot { border-color: var(--accent); background: var(--accent-light); }
+    .timeline-item.current .timeline-dot { border-color: var(--accent); background: var(--accent); }
+    .timeline-dot-inner { width: 7px; height: 7px; border-radius: 50%; background: var(--border); transition: background 0.2s; }
+    .timeline-item:hover .timeline-dot-inner { background: var(--accent); }
+    .timeline-item.current .timeline-dot-inner { background: #fff; }
+    .timeline-body { padding-top: 0.15rem; }
+    .timeline-org { font-size: 0.82rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; line-height: 1.2; }
+    .timeline-role { font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; line-height: 1.4; }
 
-    <!-- Not much to see here, sorry ¯\_(ツ)_/¯  -->
+    /* DIVIDER */
+    .full-divider { border: none; border-top: 1px solid var(--border); max-width: 1140px; margin: 0 auto; }
+
+    /* SECTIONS */
+    section { padding: 6rem 3rem; max-width: 1140px; margin: 0 auto; }
+    .section-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .section-title { font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--text); margin-bottom: 3rem; }
+
+    /* PHOTO STRIP — Cinematic Option B */
+    .photo-strip-wrap {
+      padding: 0;
+      overflow: hidden;
+    }
+    .photo-strip-label {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 2rem 3rem 1rem;
+      max-width: 1140px; margin: 0 auto;
+    }
+    .cinematic {
+      display: flex;
+      gap: 0.5rem;
+      height: 440px;
+      overflow: hidden;
+    }
+    .cine-slot {
+      overflow: hidden;
+      flex: 1;
+      position: relative;
+      transition: flex 0.5s cubic-bezier(0.4,0,0.2,1);
+      cursor: pointer;
+    }
+    .cine-slot:hover { flex: 2.4; }
+    .cine-slot img {
+      height: 100%; width: 100%; object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .cine-slot:hover img { transform: scale(1.03); }
+    .cine-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.25rem 1.25rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      color: #fff; font-size: 0.7rem; font-family: var(--font-mono);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .cine-slot:hover .cine-label { opacity: 1; }
+
+    /* ABOUT */
+    .about-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 5rem; align-items: start; }
+    .about-text p { font-size: 1rem; font-weight: 300; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.9; }
+    .about-text p strong { color: var(--text); font-weight: 600; }
+
+    /* WHAT I DO */
+    .what-i-do { display: flex; flex-direction: column; gap: 0; }
+    .what-item {
+      padding: 1.5rem 0; border-bottom: 1px solid var(--border);
+      transition: padding-left 0.2s;
+      cursor: default;
+    }
+    .what-item:first-child { padding-top: 0; }
+    .what-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .what-item:hover { padding-left: 0.5rem; }
+    .what-item-title {
+      font-size: 0.9rem; font-weight: 700; color: var(--text);
+      letter-spacing: -0.01em; margin-bottom: 0.5rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .what-item-title::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .what-item:hover .what-item-title::before { transform: scale(1.4); }
+    .what-item-desc { font-size: 0.83rem; font-weight: 300; color: var(--muted); line-height: 1.75; padding-left: 1rem; }
+
+    /* THINKING */
+    #thinking { background: var(--bg2); max-width: 100%; padding: 6rem 0; }
+    .section-inner { max-width: 1140px; margin: 0 auto; padding: 0 3rem; }
+    .thinking-intro { max-width: 620px; margin-bottom: 3rem; }
+    .thinking-intro p { font-size: 1rem; font-weight: 300; color: var(--muted); line-height: 1.9; }
+    .thinking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem; }
+    .thinking-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; transition: border-color 0.2s, box-shadow 0.2s; }
+    .thinking-card:hover { border-color: var(--accent); box-shadow: 0 6px 24px rgba(30,28,26,0.07); }
+    .thinking-card-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .thinking-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); line-height: 1.35; letter-spacing: -0.02em; }
+    .thinking-card p { font-size: 0.85rem; font-weight: 300; color: var(--muted); line-height: 1.8; flex: 1; }
+    .thinking-card-ref { font-family: var(--font-mono); font-size: 0.63rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.25rem; }
+    .thinking-card-ref a { color: var(--accent); text-decoration: none; }
+    .thinking-card-ref a:hover { text-decoration: underline; }
+    .ai-banner { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; border-left: 4px solid var(--accent); }
+    .ai-banner-left h3 { font-size: 1.3rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.25; }
+    .ai-banner-left p { font-size: 0.88rem; font-weight: 300; color: var(--muted); line-height: 1.85; }
+    .ai-banner-right { display: flex; flex-direction: column; gap: 0.75rem; }
+    .ai-point { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.83rem; font-weight: 300; color: var(--muted); line-height: 1.65; }
+    .ai-point-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 0.5rem; }
+
+    /* PROJECTS */
+    #projects { background: var(--bg); max-width: 100%; padding: 6rem 0; }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.85rem; transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s; box-shadow: 0 2px 8px rgba(30,28,26,0.04); }
+    .project-card:hover { box-shadow: 0 12px 36px rgba(30,28,26,0.1); transform: translateY(-3px); border-color: var(--accent); }
+    .project-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .project-icon { font-size: 1.4rem; line-height: 1; }
+    .project-arrow { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--muted); transition: all 0.2s; flex-shrink: 0; }
+    .project-card:hover .project-arrow { background: var(--accent); border-color: var(--accent); color: white; }
+    .project-name { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+    .project-desc { font-size: 0.84rem; font-weight: 300; color: var(--muted); line-height: 1.75; flex: 1; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-family: var(--font-mono); font-size: 0.6rem; padding: 0.2rem 0.6rem; border-radius: 4px; border: 1px solid var(--border); color: var(--muted); background: var(--bg); }
+
+    /* CONTACT */
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .contact-text p { font-size: 0.95rem; font-weight: 300; color: var(--muted); line-height: 1.9; margin-bottom: 1rem; }
+    .social-stack { display: flex; flex-direction: column; gap: 0.7rem; }
+    .social-link { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text); font-size: 0.84rem; font-weight: 500; transition: all 0.2s; }
+    .social-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .social-icon { width: 30px; height: 30px; border-radius: 6px; background: var(--bg2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); transition: background 0.2s; }
+    .social-link:hover .social-icon { background: rgba(45,106,79,0.1); }
+    .social-handle { font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted); margin-left: auto; }
+
+    /* CONTACT FORM */
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-field label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .form-field input, .form-field textarea { width: 100%; padding: 0.8rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; font-family: var(--font); font-size: 0.9rem; color: var(--text); transition: border-color 0.2s, box-shadow 0.2s; outline: none; resize: none; }
+    .form-field input::placeholder, .form-field textarea::placeholder { color: #b0a89e; }
+    .form-field input:focus, .form-field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(45,106,79,0.1); }
+    .form-success { display: none; padding: 1rem; background: var(--accent-light); border: 1px solid rgba(45,106,79,0.2); border-radius: 6px; font-size: 0.84rem; color: var(--accent); font-weight: 500; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 1.75rem 3rem; display: flex; justify-content: space-between; align-items: center; max-width: 1140px; margin: 0 auto; color: var(--muted); font-size: 0.72rem; font-family: var(--font-mono); }
+    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--accent); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; gap: 3rem; }
+      .hero-right { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .section-inner { padding: 0 1.5rem; }
+      .about-layout, .thinking-grid, .contact-layout, .ai-banner { grid-template-columns: 1fr; gap: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
+  <nav>
+    <a href="#hero" class="nav-logo">Brian <span>King</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#thinking">Thinking</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-        <div class="row head-all-container">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-3 avatar-img-container">
-                <img src="img/profile-image.jpg" alt="Profile image" onmouseover="hoverProfileImage(this);" onmouseout="unhoverProfileImage(this);" >
-            </div>
-            <div class="col-sm-5 header-info-container text-sm-center">
-                <h1>Brian King <br><span class="subtitle">Netizen</span></h1>
-
-                <div class="row social-container">
-                    <div class="col-xs-1 visible-xs-block"></div>
-                    <div class="col-xs-2">
-                        <a target="_blank" href="http://brian.kingsonline.net/talk/"><i class="fa fa-wordpress" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="col-xs-2">
-                        <a target="_blank" href="https://medium.com/@brianking"><i class="fa fa-medium" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="col-xs-2">
-                        <a target="_blank" href="https://twitter.com/brianking"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="col-xs-2">
-                        <a target="_blank" href="https://github.com/brianking"><i class="fa fa-github" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="col-xs-1 visible-xs-block"></div>
-                </div>
-                <div class="row social-container">
-                    <div class="col-xs-1 visible-xs-block"></div>
-                    <div class="col-xs-2">
-                        <a target="_blank" href="https://www.linkedin.com/in/briks"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="col-xs-2">
-                        <a target="_blank" href="https://www.instagram.com/briankinger"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="col-xs-2">
-                        <a target="_blank" href="https://www.flickr.com/photos/king-molan/"><i class="fa fa-flickr" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="col-xs-2">
-                        <a target="_blank" href="https://www.facebook.com/briankinger"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="col-xs-1 visible-xs-block"></div>
-                </div>
-            </div>
-            <div class="col-sm-2"></div>
-        </div>
-
-        <hr>
-
-        <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <div class="main-content text-sm-center">
-                    <p>I'm an Experienced Technologist, Community Leader, with a Software Development background. Most of my career has been working with Web technologies, or being a proponent of the Web as a platform and the possibilities it opens up for all of us. I currently work for <a target="_blank" href="http://toptal.com">Toptal</a> helping clients find the best talent fast.</p>
-                    <br>
-
-                    <ul class="experience-summary-list">
-                        <li>Many years of experience with software development, on projects large and small, primarily with tools and technologies for building for the Web.</li>
-                        <li>Deeply immersed in the <a target="blank" href="https://opensource.com/resources/what-open-source">Open Source</a> ethos, and am still excited about the possibilities open brings beyond the code.</li>
-                        <li>Ex Community Engagement / Participation lead at <a target="_blank" href="https://www.mozilla.org">Mozilla</a></li>
-                        <li>Work out of <a target="blank" href="https://www.facebook.com/StartupNovomesto/">Startup Novo mesto</a>, a local hub with talented people building great things.</li>
-                    </ul>
-
-                    <br>
-                    <p>Visit the links above to learn more about me and what I do.</p>
-                </div>
-            </div>
-            <div class="col-sm-2"></div>
-        </div>
-
-        <br>
-
-        <!--
-        <a href="https://q.pass.is/xxx"><img class="apple-wallet-img" class="" src="img/add-to-apple-wallet-logo.png" alt=""></a>
-        -->
-
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Community Leadership · Developer Engagement · Enterprise Marketing · Open Source</div>
+      <h1>Technology moves fast. <span class="hl">People</span> move it.</h1>
+      <p class="hero-subtitle">I believe the most powerful force in technology is not a product — it's a community that believes in something. My work is building those communities, and connecting them to real business outcomes.</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">See my work</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+      <div class="status-badge"><span class="status-dot"></span> Open to new challenges in community, developer engagement & open source · Ireland</div>
     </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hero-card-label">Career Highlights</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div class="timeline-body">
+              <div class="timeline-org">Briks Software</div>
+              <div class="timeline-role">Founder & Tech Lead · Browser integrations consultancy serving global enterprise and startup clients</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div class="timeline-body">
+              <div class="timeline-org">Mozilla</div>
+              <div class="timeline-role">Community Team Lead · Co-architected Mozilla Reps, mobilising 300+ volunteer advocates worldwide</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div class="timeline-body">
+              <div class="timeline-org">Toptal</div>
+              <div class="timeline-role">Europe Community Lead · Built and led community programmes across the European market</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div class="timeline-body">
+              <div class="timeline-org">Eclipse Foundation</div>
+              <div class="timeline-role">Cloud DevTools Working Group Lead · Scaled Open VSX with Red Hat, Ericsson, and Arm</div>
+            </div>
+          </div>
+          <div class="timeline-item current">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div class="timeline-body">
+              <div class="timeline-org">Couchbase</div>
+              <div class="timeline-role">Director of Community · Marketing Leadership Team · Community-led growth, AI partner programmes, and ambassador ecosystems</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script src="js/script.js"></script>
+  <hr class="full-divider"/>
+
+  <!-- PHOTO STRIP -->
+  <div style="background: var(--bg2); border-bottom: 1px solid var(--border);">
+    <div class="photo-strip-wrap reveal">
+      <div class="photo-strip-label">In the field</div>
+      <div class="cinematic">
+        <div class="cine-slot">
+          <img src="images/interview-toptal.jpg" alt="Interview at Toptal DEVit conference"/>
+          <div class="cine-label">DEVit Conference</div>
+        </div>
+        <div class="cine-slot">
+          <img src="images/fosdem.jpg" alt="FOSDEM open source conference, Brussels"/>
+          <div class="cine-label">FOSDEM · Brussels</div>
+        </div>
+        <div class="cine-slot">
+          <img src="images/nasdaq.jpg" alt="Couchbase at Nasdaq, New York"/>
+          <div class="cine-label">Nasdaq · New York</div>
+        </div>
+        <div class="cine-slot">
+          <img src="images/ai-workshop.jpg" alt="Couchbase AI workshop"/>
+          <div class="cine-label">AI Workshop · Couchbase</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="reveal"><div class="section-eyebrow">About me</div><h2 class="section-title">The what, the how, and <span class="hl">the why.</span></h2></div>
+    <div class="about-layout">
+      <div class="about-text reveal">
+        <p>I'm a community and developer engagement leader with <strong>12+ years</strong> of experience building the programmes, structures, and cultures that turn technology organisations into movements people want to be part of.</p>
+        <p>My career has spanned open-source foundations, enterprise software, and the startup world — from co-founding the <strong>Mozilla Reps</strong> volunteer leadership programme to serving on the <strong>Marketing Leadership Team</strong> at a global database company, where community became a measurable commercial growth lever. I know how to lead cross-functionally: aligning community strategy with product, marketing, and sales to drive outcomes that show up on the board deck.</p>
+        <p>I've led change at scale — introducing new governance frameworks, ambassador tiers, AI-era tooling strategies, and community platforms into organisations where these things didn't exist before. I'm equally comfortable influencing C-suite stakeholders as I am rolling up my sleeves with a community of developers.</p>
+        <p>At heart, the why is simple: I believe communities are the most durable competitive advantage a technology company can build. When people feel genuine belonging, they become advocates, contributors, and evangelists — not because they're paid to, but because they care.</p>
+      </div>
+      <div class="what-i-do reveal">
+        <div class="what-item">
+          <div class="what-item-title">I build communities</div>
+          <div class="what-item-desc">From volunteer programmes to enterprise developer ecosystems, I design the structures, incentives, and cultures that make people want to show up — and stay.</div>
+        </div>
+        <div class="what-item">
+          <div class="what-item-title">I lead at the intersection of marketing and technology</div>
+          <div class="what-item-desc">I've operated at senior level where developer engagement meets commercial outcomes — sitting on marketing leadership teams, building the business case for community investment, and connecting developer trust to pipeline and revenue growth.</div>
+        </div>
+        <div class="what-item">
+          <div class="what-item-title">I grow open source projects and ecosystems</div>
+          <div class="what-item-desc">From governance frameworks to multi-stakeholder partnerships, I've taken open source initiatives from early-stage to thousands of contributors and users — navigating the commercial, community, and political dynamics that come with scale.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="thinking">
+    <div class="section-inner">
+      <div class="reveal"><div class="section-eyebrow">How I think</div><h2 class="section-title">Ideas that <span class="hl">shape my work.</span></h2></div>
+      <div class="thinking-intro reveal"><p>Community leadership doesn't happen in a vacuum. The field has a growing body of serious thinking behind it — and I believe the leaders doing the best work are those who combine hands-on instinct with a clear intellectual framework. Here are the ideas I return to most.</p></div>
+      <div class="thinking-grid">
+        <div class="thinking-card reveal">
+          <div class="thinking-card-label">On community as a growth lever</div>
+          <h3>"Community-led marketing is a CMO's secret weapon."</h3>
+          <p>Derek Weeks argues in Unfair Mindshare that community is not a soft, feel-good investment — it's a hard-edged commercial strategy. When community is integrated with demand generation and brand, it creates compounding advantages that paid marketing simply cannot replicate. This thinking directly informed how I've built programmes that showed up on revenue dashboards.</p>
+          <div class="thinking-card-ref">Derek E. Weeks · <a href="https://unfairmindshare.com/book" target="_blank" rel="noopener">Unfair Mindshare</a></div>
+        </div>
+        <div class="thinking-card reveal">
+          <div class="thinking-card-label">On the power of intentional gathering</div>
+          <h3>"The purpose of a gathering is to do something that can't be done alone."</h3>
+          <p>Priya Parker's The Art of Gathering reframes how we think about bringing people together — arguing that most gatherings fail not from lack of effort, but from lack of purpose. Her thinking has sharpened how I design community experiences: from developer events and ambassador summits to online forums. The best communities aren't just spaces to be in — they're gatherings with a reason to exist.</p>
+          <div class="thinking-card-ref">Priya Parker · <a href="https://www.priyaparker.com/book" target="_blank" rel="noopener">The Art of Gathering: How We Meet and Why It Matters</a></div>
+        </div>
+      </div>
+      <div class="ai-banner reveal">
+        <div class="ai-banner-left">
+          <h3>AI is reshaping developer engagement. Here's my take.</h3>
+          <p>I've worked at the intersection of AI and developer community — helping organisations navigate the introduction of AI-powered features, integrations with platforms like LangChain, LlamaIndex, and vector search tooling, and the community dynamics that emerge when products evolve fast. The opportunity now is significant — and so is the responsibility to bring communities along thoughtfully.</p>
+        </div>
+        <div class="ai-banner-right">
+          <div class="ai-point"><span class="ai-point-dot"></span><span>AI tools are changing how developers discover, evaluate, and adopt technology — community touchpoints need to adapt accordingly.</span></div>
+          <div class="ai-point"><span class="ai-point-dot"></span><span>Ambassador programmes are uniquely positioned to provide authentic feedback loops on AI feature previews — faster than surveys, richer than usage data.</span></div>
+          <div class="ai-point"><span class="ai-point-dot"></span><span>The human layer still matters most. As AI lowers the barrier to content and code, genuine community trust becomes a more valuable differentiator, not a lesser one.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-inner">
+      <div class="reveal"><div class="section-eyebrow">Selected work</div><h2 class="section-title">Projects and <span class="hl">highlights.</span></h2></div>
+      <div class="projects-grid">
+        <a href="#" class="project-card reveal"><div class="project-top"><span class="project-icon">📈</span><div class="project-arrow">↗</div></div><div class="project-name">Community-Led Growth</div><div class="project-desc">Designed and scaled community infrastructure contributing to 15–25% revenue growth YoY for 4 consecutive years at a leading database enterprise vendor — with community-led initiatives serving as a direct commercial growth lever.</div><div class="project-tags"><span class="tag">Community</span><span class="tag">Growth</span><span class="tag">Enterprise</span></div></a>
+        <a href="#" class="project-card reveal"><div class="project-top"><span class="project-icon">🧩</span><div class="project-arrow">↗</div></div><div class="project-name">Open VSX</div><div class="project-desc">Scaled an open-source VS Code marketplace to thousands of developers through multi-stakeholder collaboration with Red Hat, Ericsson, and Arm — demonstrating cross-functional ecosystem partnership at enterprise scale.</div><div class="project-tags"><span class="tag">Developer Engagement</span><span class="tag">Ecosystem</span><span class="tag">Eclipse Foundation</span></div></a>
+        <a href="#" class="project-card reveal"><div class="project-top"><span class="project-icon">💻</span><div class="project-arrow">↗</div></div><div class="project-name">Briks Software</div><div class="project-desc">Founded and ran a software consultancy focused on browser integrations, working with global clients ranging from major enterprises to startups. Combined technical delivery with client leadership across international markets.</div><div class="project-tags"><span class="tag">Software</span><span class="tag">Consulting</span><span class="tag">Browser Tech</span></div></a>
+        <a href="#" class="project-card reveal"><div class="project-top"><span class="project-icon">🦊</span><div class="project-arrow">↗</div></div><div class="project-name">Mozilla Reps</div><div class="project-desc">Co-architected a global volunteer leadership programme mobilising 300+ advocates across dozens of countries — establishing the governance frameworks and recognition systems now used as a blueprint for open-source community governance.</div><div class="project-tags"><span class="tag">Community</span><span class="tag">Open Source</span><span class="tag">Governance</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="reveal"><div class="section-eyebrow">Get in touch</div><h2 class="section-title">The next chapter <span class="hl">starts here.</span></h2></div>
+    <div class="contact-layout">
+      <div class="contact-text reveal">
+        <p>I work at the intersection of community, developer engagement, open source, and enterprise marketing — helping technology organisations build the programmes, ecosystems, and cultures that drive real growth.</p>
+        <p style="font-size:0.85rem">Whether you're looking for a senior leader, a strategic advisor, or just want to compare notes on what's happening in open source and AI — I'd love to hear from you.</p>
+        <div class="social-stack" style="margin-top:1.5rem">
+          <a href="#" class="social-link"><div class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></div>LinkedIn<span class="social-handle">your-handle</span></a>
+          <a href="#" class="social-link"><div class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></div>GitHub<span class="social-handle">your-handle</span></a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="contact-form" id="contactForm">
+          <div class="form-row"><div class="form-field"><label for="cf-name">Name</label><input type="text" id="cf-name" placeholder="Your name" autocomplete="name"/></div><div class="form-field"><label for="cf-email">Email</label><input type="email" id="cf-email" placeholder="you@example.com" autocomplete="email"/></div></div>
+          <div class="form-field"><label for="cf-subject">Subject</label><input type="text" id="cf-subject" placeholder="What's this about?"/></div>
+          <div class="form-field"><label for="cf-message">Message</label><textarea id="cf-message" rows="5" placeholder="Tell me what you're working on…"></textarea></div>
+          <button class="btn btn-primary" id="cf-submit" onclick="handleSubmit(event)" style="align-self:flex-start">Send message</button>
+          <div class="form-success" id="formSuccess">✓ Message sent — I'll be in touch soon.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>© 2026 Brian King</span><a href="https://kingsonline.net">kingsonline.net</a></footer>
+
+  <script>
+    document.querySelectorAll('.reveal').forEach(el => {
+      new IntersectionObserver(([e], o) => { if(e.isIntersecting){ el.classList.add('visible'); o.unobserve(el); } }, {threshold:0.08}).observe(el);
+    });
+    function r13(s){ return s.replace(/[a-zA-Z]/g, c => String.fromCharCode((c<='Z'?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26)); }
+    const _e = r13('oevna@xvatfbayvar.arg');
+    function handleSubmit(e){
+      e.preventDefault();
+      const n=document.getElementById('cf-name').value.trim(), em=document.getElementById('cf-email').value.trim(), s=document.getElementById('cf-subject').value.trim(), m=document.getElementById('cf-message').value.trim();
+      if(!n||!em||!m){alert('Please fill in your name, email, and message.');return;}
+      window.location.href=`mailto:${_e}?subject=${encodeURIComponent(s||'Message from kingsonline.net')}&body=${encodeURIComponent(`Name: ${n}\nFrom: ${em}\n\n${m}`)}`;
+      document.getElementById('formSuccess').style.display='block';
+      document.getElementById('cf-submit').disabled=true; document.getElementById('cf-submit').textContent='Sent ✓';
+    }
+  </script>
 </body>
 </html>
